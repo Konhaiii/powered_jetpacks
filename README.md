@@ -1,7 +1,7 @@
 https://modrinth.com/mod/powered-jetpacks
 
 # Powered Jetpacks
-A simple mod about jetpacks powered with E energy.
+A simple fabric mod about jetpacks powered with E energy.
 
 ![Powered Jetpacks](https://cdn.modrinth.com/data/cached_images/8fd6807a74e9c1bc61873f5f587144046949e1a2.jpeg)
 
