@@ -8,10 +8,11 @@
 		"Konhaiii"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://github.com/Konhaiii/powered_jetpacks",
+		"sources": "https://github.com/Konhaiii/powered_jetpacks",
+		"issues": "https://github.com/Konhaiii/powered_jetpacks/issues"
 	},
-	"license": "CC0-1.0",
+	"license": "CC BY-NC 4.0",
 	"icon": "assets/powered_jetpacks/icon.png",
 	"environment": "*",
 	"entrypoints": {
