@@ -1,3 +1,5 @@
+https://modrinth.com/mod/powered-jetpacks
+
 # Powered Jetpacks
 A simple mod about jetpacks powered with E energy.
 
