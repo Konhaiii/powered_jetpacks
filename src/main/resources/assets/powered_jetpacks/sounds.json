@@ -1,0 +1,5 @@
+{
+	"jetpack_use": {
+	"sounds": ["powered_jetpacks:jetpack_use"]
+	}
+}

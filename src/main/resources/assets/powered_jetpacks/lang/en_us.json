@@ -1,0 +1,12 @@
+{
+	"item.powered_jetpacks.basic_jetpack": "Basic Jetpack",
+	"item.powered_jetpacks.advanced_jetpack": "Advanced Jetpack",
+	"item.powered_jetpacks.industrial_jetpack": "Industrial Jetpack",
+	"itemGroup.powered_jetpacks": "Powered Jetpacks",
+	"tooltip.powered_jetpacks.energy_meter": "%s/%s",
+	"tooltip.powered_jetpacks.power_charged": "Charged",
+	"tooltip.powered_jetpacks.input_rate": "Input Rate",
+	"tooltip.powered_jetpacks.output_rate": "Output Rate",
+	"tooltip.powered_jetpacks.transfer_rate": "Transfer Rate",
+	"hud.powered_jetpacks.jetpack_power": "Jetpack Power: "
+}

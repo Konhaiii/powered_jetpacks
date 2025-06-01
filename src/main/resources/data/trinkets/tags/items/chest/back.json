@@ -1,0 +1,8 @@
+{
+	"replace": false,
+	"values": [
+		"powered_jetpacks:basic_jetpack",
+		"powered_jetpacks:advanced_jetpack",
+		"powered_jetpacks:industrial_jetpack"
+	]
+}

@@ -1,0 +1,41 @@
+{
+	"schemaVersion": 1,
+	"id": "powered_jetpacks",
+	"version": "${version}",
+	"name": "Powered Jetpacks",
+	"description": "Add energy-powered jetpacks to Minecraft.",
+	"authors": [
+		"Konhaiii"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/powered_jetpacks/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"konhaiii.powered_jetpacks.PoweredJetpacks"
+		],
+		"client": [
+			"konhaiii.powered_jetpacks.PoweredJetpacksClient"
+		]
+	},
+	"mixins": [
+		"powered_jetpacks.mixins.json",
+		{
+			"config": "powered_jetpacks.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

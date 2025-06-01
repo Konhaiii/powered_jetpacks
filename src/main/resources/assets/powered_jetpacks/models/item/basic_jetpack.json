@@ -1,0 +1,6 @@
+{
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "powered_jetpacks:item/basic_jetpack"
+	}
+}

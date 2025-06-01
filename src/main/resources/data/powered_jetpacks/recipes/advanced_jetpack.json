@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "I": {
+      "item": "minecraft:gold_ingot"
+    },
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "B": {
+      "item": "minecraft:gold_block"
+    }
+  },
+  "pattern": [
+    "RIR",
+    "BLB",
+    "I I"
+  ],
+  "result": {
+    "item": "powered_jetpacks:advanced_jetpack"
+  },
+  "show_notification": true
+}
