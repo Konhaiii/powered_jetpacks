@@ -1,10 +1,10 @@
 package konhaiii.powered_jetpacks.packet;
 
-import dev.emi.trinkets.api.TrinketsApi;
 import konhaiii.powered_jetpacks.PoweredJetpacks;
 import konhaiii.powered_jetpacks.item.special.JetpackItem;
 import konhaiii.powered_jetpacks.sounds.ModSounds;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleTypes;
@@ -12,10 +12,12 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public record JetpackPacket(boolean shouldPlaySound) {
 	private static final Identifier PACKET_ID = new Identifier(PoweredJetpacks.MOD_ID, "jetpack_packet");
@@ -30,14 +32,19 @@ public record JetpackPacket(boolean shouldPlaySound) {
 
 	public static void handle(ServerPlayerEntity player, JetpackPacket packet) {
 		ItemStack chestStack = player.getEquippedStack(EquipmentSlot.CHEST);
+		ItemStack backStack = ItemStack.EMPTY;
 
-		ItemStack backStack = TrinketsApi.getTrinketComponent(player).map(component ->
-				component.getEquipped(stack -> stack.getItem() instanceof JetpackItem)
-						.stream()
-						.findFirst()
-						.map(Pair::getRight)
-						.orElse(ItemStack.EMPTY)
-		).orElse(ItemStack.EMPTY);
+		if (PoweredJetpacks.isTrinketsLoaded) {
+			try {
+				Class<?> optionalClass = Class.forName("konhaiii.powered_jetpacks.compat.TrinketsServer");
+				Method getBackStackMethod = optionalClass.getMethod("getBackStack", LivingEntity.class);
+				backStack = (ItemStack) getBackStackMethod.invoke(null, player);
+			} catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
+			         IllegalAccessException e) {
+				PoweredJetpacks.LOGGER.error("Could not load Trinkets compat class.");
+			}
+		}
+
 		ItemStack jetpackStack = null;
 		if (isValidJetpack(chestStack)) {
 			jetpackStack = chestStack;

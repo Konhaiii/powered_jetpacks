@@ -1,14 +1,17 @@
 package konhaiii.powered_jetpacks.hud;
 
-import dev.emi.trinkets.api.TrinketsApi;
+import konhaiii.powered_jetpacks.PoweredJetpacks;
 import konhaiii.powered_jetpacks.item.special.JetpackItem;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Pair;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import static net.minecraft.client.resource.language.I18n.translate;
 
@@ -20,13 +23,18 @@ public class JetpackHUD implements HudRenderCallback {
 		if (client.player == null) return;
 
 		ItemStack chestStack = client.player.getEquippedStack(EquipmentSlot.CHEST);
-		ItemStack backStack = TrinketsApi.getTrinketComponent(client.player).map(component ->
-				component.getEquipped(stack -> stack.getItem() instanceof JetpackItem)
-						.stream()
-						.findFirst()
-						.map(Pair::getRight)
-						.orElse(ItemStack.EMPTY)
-		).orElse(ItemStack.EMPTY);
+		ItemStack backStack = ItemStack.EMPTY;
+
+		if (PoweredJetpacks.isTrinketsLoaded) {
+			try {
+				Class<?> optionalClass = Class.forName("konhaiii.powered_jetpacks.compat.TrinketsServer");
+				Method getBackStackMethod = optionalClass.getMethod("getBackStack", LivingEntity.class);
+				backStack = (ItemStack) getBackStackMethod.invoke(null, client.player);
+			} catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
+			         IllegalAccessException e) {
+				PoweredJetpacks.LOGGER.error("Could not load Trinkets compat class.");
+			}
+		}
 
 		ItemStack jetpackStack = isValidJetpack(chestStack) ? chestStack : (!backStack.isEmpty() ? backStack : ItemStack.EMPTY);
 

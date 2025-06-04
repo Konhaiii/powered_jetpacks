@@ -1,6 +1,5 @@
 package konhaiii.powered_jetpacks.renderers;
 
-import dev.emi.trinkets.api.TrinketsApi;
 import konhaiii.powered_jetpacks.PoweredJetpacks;
 import konhaiii.powered_jetpacks.item.ModItems;
 import konhaiii.powered_jetpacks.item.special.JetpackItem;
@@ -17,8 +16,10 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Pair;
 import net.minecraft.util.math.RotationAxis;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class JetpackRenderer<T extends LivingEntity, M extends EntityModel<T>> extends FeatureRenderer<T, M> {
 	private final JetpackModel<T> jetpackModel;
@@ -34,14 +35,17 @@ public class JetpackRenderer<T extends LivingEntity, M extends EntityModel<T>> e
 	@Override
 	public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, T entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
 		ItemStack chestStack = entity.getEquippedStack(EquipmentSlot.CHEST);
-
-		ItemStack backStack = TrinketsApi.getTrinketComponent(entity).map(component ->
-				component.getEquipped(stack -> stack.getItem() instanceof JetpackItem)
-						.stream()
-						.findFirst()
-						.map(Pair::getRight)
-						.orElse(ItemStack.EMPTY)
-		).orElse(ItemStack.EMPTY);
+		ItemStack backStack = ItemStack.EMPTY;
+		if (PoweredJetpacks.isTrinketsLoaded) {
+			try {
+				Class<?> optionalClass = Class.forName("konhaiii.powered_jetpacks.compat.TrinketsClient");
+				Method getBackStackMethod = optionalClass.getMethod("getBackStackLivingEntity", LivingEntity.class);
+				backStack = (ItemStack) getBackStackMethod.invoke(null, entity);
+			} catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
+			         IllegalAccessException e) {
+				PoweredJetpacks.LOGGER.error("Could not load Trinkets compat class.");
+			}
+		}
 
 		ItemStack jetpackStack = isValidJetpack(chestStack) ? chestStack : (!backStack.isEmpty() ? backStack : ItemStack.EMPTY);
 

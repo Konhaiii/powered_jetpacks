@@ -1,18 +1,18 @@
 package konhaiii.powered_jetpacks.item.special;
 
-import dev.emi.trinkets.api.TrinketItem;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Equipment;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import team.reborn.energy.api.base.SimpleEnergyItem;
 
-public class JetpackItem extends TrinketItem implements SimpleEnergyItem, Equipment {
+public class JetpackItem extends Item implements SimpleEnergyItem, Equipment {
 	private final int maxEnergy;
 	private final int inputEnergy;
 	private final float flightPower;
