@@ -16,12 +16,15 @@ public class PoweredJetpacks implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static ModConfig config;
 	public static boolean isTrinketsLoaded = false;
+	public static boolean isSodiumLoaded = false;
 
 	@Override
 	public void onInitialize() {
 		if (FabricLoader.getInstance().isModLoaded("trinkets")) {
 			isTrinketsLoaded = true;
-			PoweredJetpacks.LOGGER.info("TRINKETS LOADED");
+		}
+		if (FabricLoader.getInstance().isModLoaded("sodium")) {
+			isSodiumLoaded = true;
 		}
 		config = ModConfig.loadConfig();
 		ModItems.initialize();

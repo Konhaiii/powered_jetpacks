@@ -1,5 +1,6 @@
 package konhaiii.powered_jetpacks.models;
 
+import konhaiii.powered_jetpacks.PoweredJetpacks;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
@@ -17,60 +18,119 @@ public class JetpackModel<T extends LivingEntity> extends EntityModel<T> {
 	private final ModelPart mainRight;
 
 	public JetpackModel() {
-		// Middle part
-		Map<Direction, UV> middleUVs = Map.of(
-				Direction.NORTH, new UV(8, 2, 16, 16),
-				Direction.EAST, new UV(6, 2, 16, 16),
-				Direction.SOUTH, new UV(4, 2, 16, 16),
-				Direction.WEST, new UV(10, 2, 16, 16),
-				Direction.UP, new UV(4, 4, 16, 16),
-				Direction.DOWN, new UV(6, 6, 16, 16)
-		);
-		this.middle = createCuboid(7, 2, 7, 2, 8, 2, middleUVs);
-
-		// Bottom left part
-		Map<Direction, UV> bottomLeftUVs = Map.of(
-				Direction.NORTH, new UV(4, 0, 16, 16),
-				Direction.EAST, new UV(2, 0, 16, 16),
-				Direction.SOUTH, new UV(0, 0, 16, 16),
-				Direction.WEST, new UV(6, 0, 16, 16),
-				Direction.UP, new UV(2, 0, 16, 16),
-				Direction.DOWN, new UV(4, 0, 16, 16)
-		);
-		this.bottomLeft = createCuboid(4, 0, 7, 2, 1, 2, bottomLeftUVs);
-
-		// Bottom right part
-		Map<Direction, UV> bottomRightUVs = Map.of(
-				Direction.NORTH, new UV(4, 0, 16, 16),
-				Direction.EAST, new UV(2, 0, 16, 16),
-				Direction.SOUTH, new UV(0, 0, 16, 16),
-				Direction.WEST, new UV(6, 0, 16, 16),
-				Direction.UP, new UV(2, 0, 16, 16),
-				Direction.DOWN, new UV(4, 0, 16, 16)
-		);
-		this.bottomRight = createCuboid(10, 0, 7, 2, 1, 2, bottomRightUVs);
-
-		// Main left part
-		Map<Direction, UV> mainLeftUVs = Map.of(
-				Direction.NORTH, new UV(8, 0, 16, 16),
-				Direction.EAST, new UV(4, 0, 16, 16),
-				Direction.SOUTH, new UV(0, 0, 16, 16),
-				Direction.WEST, new UV(12, 0, 16, 16),
-				Direction.UP, new UV(4, 0, 16, 16),
-				Direction.DOWN, new UV(4, 0, 16, 16)
-		);
-		this.mainLeft = createCuboid(3, 1, 6, 4, 10, 4, mainLeftUVs);
-
-		// Main right part
-		Map<Direction, UV> mainRightUVs = Map.of(
-				Direction.NORTH, new UV(8, 0, 16, 16),
-				Direction.EAST, new UV(4, 0, 16, 16),
-				Direction.SOUTH, new UV(0, 0, 16, 16),
-				Direction.WEST, new UV(12, 0, 16, 16),
-				Direction.UP, new UV(4, 0, 16, 16),
-				Direction.DOWN, new UV(4, 0, 16, 16)
-		);
-		this.mainRight = createCuboid(9, 1, 6, 4, 10, 4, mainRightUVs);
+		ModelPart middleTemp;
+		ModelPart bottomLeftTemp;
+		ModelPart bottomRightTemp;
+		ModelPart mainLeftTemp;
+		ModelPart mainRightTemp;
+		Map<Direction, UV> middleUVs;
+		Map<Direction, UV> bottomLeftUVs;
+		Map<Direction, UV> bottomRightUVs;
+		Map<Direction, UV> mainLeftUVs;
+		Map<Direction, UV> mainRightUVs;
+		if (PoweredJetpacks.isSodiumLoaded) {
+			// Middle part
+			middleUVs = Map.of(
+					Direction.NORTH, new UV(8, 2),
+					Direction.EAST, new UV(10, 2),
+					Direction.SOUTH, new UV(4, 2),
+					Direction.WEST, new UV(6, 2),
+					Direction.UP, new UV(4, 4),
+					Direction.DOWN, new UV(6, 6)
+			);
+			// Bottom left part
+			bottomLeftUVs = Map.of(
+					Direction.NORTH, new UV(4, 0),
+					Direction.EAST, new UV(6, 0),
+					Direction.SOUTH, new UV(0, 0),
+					Direction.WEST, new UV(6, 0),
+					Direction.UP, new UV(2, 0),
+					Direction.DOWN, new UV(4, 0)
+			);
+			// Bottom right part
+			bottomRightUVs = Map.of(
+					Direction.NORTH, new UV(4, 0),
+					Direction.EAST, new UV(6, 0),
+					Direction.SOUTH, new UV(0, 0),
+					Direction.WEST, new UV(6, 0),
+					Direction.UP, new UV(2, 0),
+					Direction.DOWN, new UV(4, 0)
+			);
+			// Main left part
+			mainLeftUVs = Map.of(
+					Direction.NORTH, new UV(8, 0),
+					Direction.EAST, new UV(-4, 0),
+					Direction.SOUTH, new UV(0, 0),
+					Direction.WEST, new UV(4, 0),
+					Direction.UP, new UV(4, 0),
+					Direction.DOWN, new UV(4, 0)
+			);
+			// Main right part
+			mainRightUVs = Map.of(
+					Direction.NORTH, new UV(8, 0),
+					Direction.EAST, new UV(-4, 0),
+					Direction.SOUTH, new UV(0, 0),
+					Direction.WEST, new UV(4, 0),
+					Direction.UP, new UV(4, 0),
+					Direction.DOWN, new UV(4, 0)
+			);
+		} else {
+			// Middle part
+			middleUVs = Map.of(
+					Direction.NORTH, new UV(8, 2),
+					Direction.EAST, new UV(6, 2),
+					Direction.SOUTH, new UV(4, 2),
+					Direction.WEST, new UV(10, 2),
+					Direction.UP, new UV(4, 4),
+					Direction.DOWN, new UV(6, 6)
+			);
+			// Bottom left part
+			bottomLeftUVs = Map.of(
+					Direction.NORTH, new UV(4, 0),
+					Direction.EAST, new UV(2, 0),
+					Direction.SOUTH, new UV(0, 0),
+					Direction.WEST, new UV(6, 0),
+					Direction.UP, new UV(2, 0),
+					Direction.DOWN, new UV(4, 0)
+			);
+			// Bottom right part
+			bottomRightUVs = Map.of(
+					Direction.NORTH, new UV(4, 0),
+					Direction.EAST, new UV(2, 0),
+					Direction.SOUTH, new UV(0, 0),
+					Direction.WEST, new UV(6, 0),
+					Direction.UP, new UV(2, 0),
+					Direction.DOWN, new UV(4, 0)
+			);
+			// Main left part
+			mainLeftUVs = Map.of(
+					Direction.NORTH, new UV(8, 0),
+					Direction.EAST, new UV(4, 0),
+					Direction.SOUTH, new UV(0, 0),
+					Direction.WEST, new UV(12, 0),
+					Direction.UP, new UV(4, 0),
+					Direction.DOWN, new UV(4, 0)
+			);
+			// Main right part
+			mainRightUVs = Map.of(
+					Direction.NORTH, new UV(8, 0),
+					Direction.EAST, new UV(4, 0),
+					Direction.SOUTH, new UV(0, 0),
+					Direction.WEST, new UV(12, 0),
+					Direction.UP, new UV(4, 0),
+					Direction.DOWN, new UV(4, 0)
+			);
+		}
+		middleTemp = createCuboid(7, 2, 7, 2, 8, 2, middleUVs);
+		bottomLeftTemp = createCuboid(4, 0, 7, 2, 1, 2, bottomLeftUVs);
+		bottomRightTemp = createCuboid(10, 0, 7, 2, 1, 2, bottomRightUVs);
+		mainLeftTemp = createCuboid(3, 1, 6, 4, 10, 4, mainLeftUVs);
+		mainRightTemp = createCuboid(9, 1, 6, 4, 10, 4, mainRightUVs);
+		this.bottomRight = bottomRightTemp;
+		this.bottomLeft = bottomLeftTemp;
+		this.mainLeft = mainLeftTemp;
+		this.middle = middleTemp;
+		this.mainRight = mainRightTemp;
 	}
 
 	private ModelPart createCuboid(int x, int y, int z, int width, int height, int depth, Map<Direction, UV> faceUVs) {
@@ -84,7 +144,7 @@ public class JetpackModel<T extends LivingEntity> extends EntityModel<T> {
 					width, height, depth,
 					0, 0, 0,
 					false,
-					uv.uWidth, uv.vHeight,
+					16, 16,
 					EnumSet.of(face)
 			);
 			cuboids.add(cuboid);
@@ -93,7 +153,7 @@ public class JetpackModel<T extends LivingEntity> extends EntityModel<T> {
 		return new ModelPart(cuboids, Map.of());
 	}
 
-	public record UV(int u, int v, int uWidth, int vHeight) {
+	public record UV(int u, int v) {
 	}
 
 	@Override
