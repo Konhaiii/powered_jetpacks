@@ -28,47 +28,51 @@ public abstract class ClientPlayerEntityMixin {
 	@Inject(method = "tick", at = @At("HEAD"))
 	private void onTick(CallbackInfo ci) {
 		ClientPlayerEntity player = (ClientPlayerEntity) (Object) this;
-		ItemStack chestStack = player.getEquippedStack(EquipmentSlot.CHEST);
-		ItemStack backStack = ItemStack.EMPTY;
+		if (player.input.jumping) {
+			ItemStack chestStack = player.getEquippedStack(EquipmentSlot.CHEST);
+			ItemStack backStack = ItemStack.EMPTY;
 
-		if (PoweredJetpacks.isTrinketsLoaded) {
-			try {
-				Class<?> optionalClass = Class.forName("konhaiii.powered_jetpacks.compat.TrinketsServer");
-				Method getBackStackMethod = optionalClass.getMethod("getBackStack", LivingEntity.class);
-				backStack = (ItemStack) getBackStackMethod.invoke(null, player);
-			} catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
-			         IllegalAccessException e) {
-				PoweredJetpacks.LOGGER.error("Could not load Trinkets compat class.");
+			if (PoweredJetpacks.isTrinketsLoaded) {
+				try {
+					Class<?> optionalClass = Class.forName("konhaiii.powered_jetpacks.compat.TrinketsServer");
+					Method getBackStackMethod = optionalClass.getMethod("getBackStack", LivingEntity.class);
+					backStack = (ItemStack) getBackStackMethod.invoke(null, player);
+				} catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
+				         IllegalAccessException e) {
+					PoweredJetpacks.LOGGER.error("Could not load Trinkets compat class.");
+				}
 			}
-		}
 
-		ItemStack jetpackStack = null;
-		if (isValidJetpack(chestStack)) {
-			jetpackStack = chestStack;
-		} else if (isValidJetpack(backStack)) {
-			jetpackStack = backStack;
-		}
-
-		if (jetpackStack != null && player.input.jumping) {
-			PacketByteBuf buf = PacketByteBufs.create();
-			JetpackItem jetpack = (JetpackItem) jetpackStack.getItem();
-			Vec3d velocity = player.getVelocity();
-			float horizontalBoost = jetpack.getFlightSpeed();
-			player.setVelocity(
-					velocity.x + (player.getRotationVector().x * horizontalBoost),
-					jetpack.addToVerticalVelocity(player.getVelocity().y),
-					velocity.z + (player.getRotationVector().z * horizontalBoost)
-			);
-			player.fallDistance = 0;
-
-			soundCounter++;
-			if (soundCounter >= 8) {
-				JetpackPacket.encode(new JetpackPacket(true), buf);
-				soundCounter = 0;
-			} else {
-				JetpackPacket.encode(new JetpackPacket(false), buf);
+			ItemStack jetpackStack = null;
+			if (isValidJetpack(chestStack)) {
+				jetpackStack = chestStack;
+			} else if (isValidJetpack(backStack)) {
+				jetpackStack = backStack;
 			}
-			ClientPlayNetworking.send(JetpackPacket.getPacketId(), buf);
+
+			if (jetpackStack != null) {
+				PacketByteBuf buf = PacketByteBufs.create();
+				JetpackItem jetpack = (JetpackItem) jetpackStack.getItem();
+				Vec3d velocity = player.getVelocity();
+				float horizontalBoost = jetpack.getFlightSpeed();
+				player.setVelocity(
+						velocity.x + (player.getRotationVector().x * horizontalBoost),
+						jetpack.addToVerticalVelocity(player.getVelocity().y),
+						velocity.z + (player.getRotationVector().z * horizontalBoost)
+				);
+				player.fallDistance = 0;
+
+				soundCounter++;
+				if (soundCounter >= 8) {
+					JetpackPacket.encode(new JetpackPacket(true), buf);
+					soundCounter = 0;
+				} else {
+					JetpackPacket.encode(new JetpackPacket(false), buf);
+				}
+				ClientPlayNetworking.send(JetpackPacket.getPacketId(), buf);
+			} else if (soundCounter != 8) {
+				soundCounter = 8;
+			}
 		} else if (soundCounter != 8) {
 			soundCounter = 8;
 		}
