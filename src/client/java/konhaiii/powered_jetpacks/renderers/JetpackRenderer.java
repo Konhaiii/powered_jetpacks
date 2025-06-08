@@ -38,12 +38,12 @@ public class JetpackRenderer<T extends LivingEntity, M extends EntityModel<T>> e
 		ItemStack backStack = ItemStack.EMPTY;
 		if (PoweredJetpacks.isTrinketsLoaded) {
 			try {
-				Class<?> optionalClass = Class.forName("konhaiii.powered_jetpacks.compat.TrinketsClient");
-				Method getBackStackMethod = optionalClass.getMethod("getBackStackLivingEntity", LivingEntity.class);
+				Class<?> optionalClass = Class.forName("konhaiii.powered_jetpacks.compat.TrinketsServer");
+				Method getBackStackMethod = optionalClass.getMethod("getBackStack", LivingEntity.class);
 				backStack = (ItemStack) getBackStackMethod.invoke(null, entity);
 			} catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
 			         IllegalAccessException e) {
-				PoweredJetpacks.LOGGER.error("Could not load Trinkets compat class.");
+				PoweredJetpacks.LOGGER.error("JetpackRenderer: Could not load Trinkets compat class.");
 			}
 		}
 

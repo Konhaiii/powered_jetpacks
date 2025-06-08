@@ -32,7 +32,7 @@ public class JetpackHUD implements HudRenderCallback {
 				backStack = (ItemStack) getBackStackMethod.invoke(null, client.player);
 			} catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
 			         IllegalAccessException e) {
-				PoweredJetpacks.LOGGER.error("Could not load Trinkets compat class.");
+				PoweredJetpacks.LOGGER.error("JetpackHUD: Could not load Trinkets compat class.");
 			}
 		}
 

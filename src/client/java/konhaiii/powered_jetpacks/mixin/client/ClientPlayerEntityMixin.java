@@ -39,7 +39,7 @@ public abstract class ClientPlayerEntityMixin {
 					backStack = (ItemStack) getBackStackMethod.invoke(null, player);
 				} catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
 				         IllegalAccessException e) {
-					PoweredJetpacks.LOGGER.error("Could not load Trinkets compat class.");
+					PoweredJetpacks.LOGGER.error("ClientPlayerEntityMixin: Could not load Trinkets compat class.");
 				}
 			}
 

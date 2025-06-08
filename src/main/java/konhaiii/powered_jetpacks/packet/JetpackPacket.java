@@ -41,7 +41,7 @@ public record JetpackPacket(boolean shouldPlaySound) {
 				backStack = (ItemStack) getBackStackMethod.invoke(null, player);
 			} catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
 			         IllegalAccessException e) {
-				PoweredJetpacks.LOGGER.error("Could not load Trinkets compat class.");
+				PoweredJetpacks.LOGGER.error("JetpackPacket: Could not load Trinkets compat class.");
 			}
 		}
 
